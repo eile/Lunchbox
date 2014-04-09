@@ -96,8 +96,13 @@ int main( int, char** )
 
     TEST( future.wait( ) == 0xC0FFEE );
     TEST( future.wait( ));
+    TEST( future.isReady( ));
+
     TEST( uint128Future.wait() == uuid );
+    TEST( uint128Future.isReady( ));
+
     TEST( handler_.isRequestServed( voidFuture.getID( )));
+    TEST( voidFuture.isReady( ));
 
     TEST( thread.join( ));
     return EXIT_SUCCESS;

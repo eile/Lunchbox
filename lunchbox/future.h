@@ -21,6 +21,8 @@
 #include <lunchbox/refPtr.h>      // used inline
 #include <lunchbox/referenced.h>  // base class
 
+#include <boost/mpl/if.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <stdexcept>
 
 namespace lunchbox
@@ -45,8 +47,8 @@ public:
      *
      * May be called multiple times.
      * @param timeout optional timeout in milliseconds. If the future is
-     *                not ready when the timer goes off a timeout exception
-     *                is thrown.
+     *                not ready when the timer goes off a FutureTimeout
+     *                exception is thrown.
      * @version 1.9.1
      */
     virtual T wait( const uint32_t timeout = LB_TIMEOUT_INDEFINITE ) = 0;
@@ -64,7 +66,8 @@ template< class T > class Future
 private:
     typedef void (Future< T >::*bool_t)() const;
     void bool_true() const {}
-
+    typedef typename boost::mpl::if_< boost::is_same< T, void >, void*,
+                                      T >::type value_t;
 public:
     typedef RefPtr< FutureImpl< T > > Impl; //!< The wait implementation
 
@@ -77,14 +80,14 @@ public:
     /**
      * Wait for the promise to be fullfilled.
      *
-     * @param timeout_ optional timeout in milliseconds. If the future is
-     *                 not ready when the timer goes off a timeout exception
-     *                 is thrown.
+     * @param timeout optional timeout in milliseconds. If the future is not
+     *                ready when the timer goes off a FutureTimeout exception
+     *                is thrown.
      * @version 1.9.1
      */
-    T wait( const uint32_t timeout_ = LB_TIMEOUT_INDEFINITE )
+    T wait( const uint32_t timeout = LB_TIMEOUT_INDEFINITE )
     {
-        return impl_->wait( timeout_ );
+        return impl_->wait( timeout );
     }
 
     /**
@@ -102,66 +105,31 @@ public:
     bool operator ! () { return !wait(); }
 
     /** @return true if the result is equal to the given value. @version 1.9.1*/
-    bool operator == ( const T& rhs ) { return wait() == rhs; }
+    bool operator == ( const value_t& rhs ) { return wait() == rhs; }
 
     /** @return true if the result is not equal to the rhs. @version 1.9.1*/
-    bool operator != ( const T& rhs ) { return wait() != rhs; }
+    bool operator != ( const value_t& rhs ) { return wait() != rhs; }
 
     /** @return true if the result is smaller than the rhs. @version 1.9.1 */
-    bool operator < ( const T& rhs ) { return wait() < rhs; }
+    bool operator < ( const value_t& rhs ) { return wait() < rhs; }
 
     /** @return true if the result is bigger than the rhs. @version 1.9.1 */
-    bool operator > ( const T& rhs ) { return wait() > rhs; }
+    bool operator > ( const value_t& rhs ) { return wait() > rhs; }
 
     /** @return true if the result is smaller or equal. @version 1.9.1 */
-    bool operator <= ( const T& rhs ) { return wait() <= rhs; }
+    bool operator <= ( const value_t& rhs ) { return wait() <= rhs; }
 
     /** @return true if the result is bigger or equal. @version 1.9.1 */
-    bool operator >= ( const T& rhs ) { return wait() >= rhs; }
+    bool operator >= ( const value_t& rhs ) { return wait() >= rhs; }
     //@}
 
 protected:
     Impl impl_;
 };
 
-/** Future template specialization for void */
-template<> class Future< void >
-{
-private:
-    typedef void (Future< void >::*bool_t)() const;
-    void bool_true() const {}
-
-public:
-    typedef RefPtr< FutureImpl< void > > Impl; //!< The wait implementation
-
-    /** Construct a new future. @version 1.9.1 */
-    explicit Future( Impl impl ) : impl_( impl ){}
-
-    /** Destruct the future. @version 1.9.1 */
-     ~Future(){}
-
-    /**
-     * Wait for the promise to be fullfilled.
-     *
-     * @param timeout_ optional timeout in milliseconds. If the future is
-     *                 not ready when the timer goes off a timeout exception
-     *                 is thrown.
-     * @version 1.9.1
-     */
-    void wait( const uint32_t timeout_ = LB_TIMEOUT_INDEFINITE )
-    {
-        impl_->wait( timeout_ );
-    }
-
-    /**
-     * @return true if the future has been fulfilled, false if it is pending.
-     * @version 1.9.1
-     */
-    bool isReady() const { return impl_->isReady(); }
-
-protected:
-    Impl impl_;
-};
+/** Future< void > template specializations */
+template<>
+inline bool Future< void >::operator == ( const value_t& ) { return true; }
 
 }
 #endif //LUNCHBOX_FUTURE_H

@@ -19,8 +19,6 @@
 #define LUNCHBOX_REQUEST_H
 
 #include <lunchbox/future.h>
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_same.hpp>
 
 namespace lunchbox
 {
@@ -33,32 +31,32 @@ template< class T > class Request : public Future< T >
 {
     class Impl : public FutureImpl< T >
     {
-        typedef typename boost::mpl::if_< boost::is_same< T, void >,
-                                          void*, T >::type value_t;
     public:
         Impl( RequestHandler& handler, const uint32_t req )
             : request( req )
-            , result( 0 )
-            , handler_( handler )
-            , done_( false )
-            , relinquished_( false )
+            , _handler( handler )
+            , _result( 0 )
+            , _done( false )
+            , _relinquished( false )
         {}
         virtual ~Impl() {}
 
         const uint32_t request;
-        value_t result;
 
-        void relinquish() { relinquished_ = true; }
-        bool isRelinquished() const { return relinquished_; }
+        void relinquish() { _relinquished = true; }
+        bool isRelinquished() const { return _relinquished; }
 
     protected:
         T wait( const uint32_t timeout ) final;
         bool isReady() const final;
 
     private:
-        RequestHandler& handler_;
-        bool done_; //!< waitRequest finished
-        bool relinquished_;
+        typedef typename boost::mpl::if_< boost::is_same< T, void >,
+                                          void*, T >::type value_t;
+        RequestHandler& _handler;
+        value_t _result;
+        bool _done; //!< waitRequest finished
+        bool _relinquished;
     };
 
 public:
@@ -99,34 +97,34 @@ namespace lunchbox
 template< class T > inline T Request< T >::Impl::wait(
     const uint32_t timeout )
 {
-    if( !done_ )
+    if( !_done )
     {
-        if( relinquished_ )
+        if( _relinquished )
             LBUNREACHABLE;
 
-        if ( !handler_.waitRequest( request, result, timeout ))
+        if ( !_handler.waitRequest( request, _result, timeout ))
             throw FutureTimeout();
-        done_ = true;
+        _done = true;
     }
-    return result;
+    return _result;
 }
 
 template<> inline void Request< void >::Impl::wait( const uint32_t timeout )
 {
-    if( !done_ )
+    if( !_done )
     {
-        if( relinquished_ )
+        if( _relinquished )
             LBUNREACHABLE;
 
-        if ( !handler_.waitRequest( request, result, timeout ))
+        if ( !_handler.waitRequest( request, _result, timeout ))
             throw FutureTimeout();
-        done_ = true;
+        _done = true;
     }
 }
 
 template< class T > inline bool Request< T >::Impl::isReady() const
 {
-    return done_ || ( !relinquished_ && handler_.isRequestReady( request ));
+    return _done || ( !_relinquished && _handler.isRequestReady( request ));
 }
 
 }

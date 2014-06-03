@@ -23,7 +23,7 @@ set(VERSION_PATCH "1")
 set(VERSION_ABI 3)
 
 set(GITTARGETS_RELEASE_BRANCH minor)
-set(DPUT_HOST "ppa:eilemann/equalizer-dev")
+set(DPUT_HOST "ppa:bbp/ppa")
 
 set(LUNCHBOX_DESCRIPTION "Multi-threaded C++ toolbox library for all application developers creating high-performance multi-threaded programs.")
 set(COMMON_PROJECT_DOMAIN ch.eyescale)

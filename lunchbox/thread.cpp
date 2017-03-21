@@ -25,11 +25,13 @@
 #include "os.h"
 #include "rng.h"
 #include "scopedMutex.h"
-#include "sleep.h"
 #include "spinLock.h"
 
-#include <algorithm>
+#include <extra/sleep.h>
+
 #include <boost/lexical_cast.hpp>
+
+#include <algorithm>
 #include <errno.h>
 #include <map>
 #include <pthread.h>
@@ -195,7 +197,7 @@ bool Thread::start()
                    << std::endl;
             return false;
         }
-        sleep(1); // Give EAGAIN some time to recover
+        extra::sleep(1); // Give EAGAIN some time to recover
     }
 
     // avoid memleak, we don't use pthread_join

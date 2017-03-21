@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011-2016, Stefan Eilemann <stefan.eilemann@epfl.ch>
+/* Copyright (c) 2011-2017, Stefan Eilemann <stefan.eilemann@epfl.ch>
  *                          Daniel Nachbaur <danielnachbaur@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
@@ -24,16 +24,16 @@
 #include <lunchbox/lfVector.h>
 #pragma warning(pop)
 
-#include <lunchbox/clock.h>
 #include <lunchbox/init.h>
 #include <lunchbox/monitor.h>
 #include <lunchbox/thread.h>
 
+#include <extra/Clock.h>
 #include <limits>
 
 #define LOOPSIZE 200000
 
-lunchbox::Clock _clock;
+extra::Clock _clock;
 typedef lunchbox::LFVector<size_t> Vector_t;
 float rTime_;
 float wTime_;
@@ -322,7 +322,7 @@ int main(int, char**)
         writers[l].start();
         pushers[l].start();
     }
-    lunchbox::sleep(10);
+    extra::sleep(10);
 
     for (size_t i = 1; i <= nThreads; i = i << 1)
         for (size_t j = 1; j <= nThreads; j = j << 1)

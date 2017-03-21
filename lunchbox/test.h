@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2005-2014, Stefan Eilemann <eile@equalizergraphics.com>
+/* Copyright (c) 2005-2017, Stefan Eilemann <eile@equalizergraphics.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,8 +30,9 @@
 #define LBTEST_TEST_H
 
 #include <lunchbox/log.h>
-#include <lunchbox/sleep.h>
 #include <lunchbox/thread.h>
+
+#include <extra/sleep.h>
 
 #include <cstdlib>
 #include <fstream>
@@ -91,12 +92,12 @@ public:
     {
         lunchbox::Thread::setName("Watchdog");
 #ifdef TEST_RUNTIME
-        lunchbox::sleep(TEST_RUNTIME * 1000);
+        extra::sleep(TEST_RUNTIME * 1000);
         std::cerr << "Watchdog triggered - " << _name
                   << " did not terminate within " << TEST_RUNTIME << "s"
                   << std::endl;
 #else
-        lunchbox::sleep(60000);
+        extra::sleep(60000);
         std::cerr << "Watchdog triggered - " << _name
                   << " did not terminate within 1 minute" << std::endl;
 #endif
@@ -129,7 +130,7 @@ int main(int argc, char** argv)
 
 #ifndef TEST_NO_WATCHDOG
     watchdog.cancel();
-    lunchbox::sleep(10); // give watchdog time to terminate
+    extra::sleep(10); // give watchdog time to terminate
 #endif
     return EXIT_SUCCESS;
 }

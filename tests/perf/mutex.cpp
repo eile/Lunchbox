@@ -18,18 +18,18 @@
 #define TEST_RUNTIME 600 // seconds, needed for NighlyMemoryCheck
 #include <lunchbox/test.h>
 
-#include <lunchbox/clock.h>
 #include <lunchbox/debug.h>
 #include <lunchbox/init.h>
 #include <lunchbox/spinLock.h>
 
+#include <extra/Clock.h>
 #include <iostream>
 #include <mutex>
 
 #define MAXTHREADS 256
 #define TIME 500 // ms
 
-lunchbox::Clock _clock;
+extra::Clock _clock;
 bool _running = false;
 
 template <class T>
@@ -74,11 +74,11 @@ void _test()
             threads[j].mutex = &mutex;
             TEST(threads[j].start());
         }
-        lunchbox::sleep(10); // let threads initialize
+        extra::sleep(10); // let threads initialize
 
         _clock.reset();
         mutex.unlock();
-        lunchbox::sleep(TIME); // let threads run
+        extra::sleep(TIME); // let threads run
         _running = false;
 
         for (size_t j = 0; j < i; ++j)

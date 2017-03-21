@@ -31,7 +31,7 @@ Lunchbox provides the following major features to facilitate the
 development and deployment of multi-threaded applications:
 * Operating System Abstraction: lunchbox::Atomic, lunchbox::Condition,
   lunchbox::DSO, @ref bitops "bit operations", lunchbox::daemonize(),
-  (lunchbox::Clock, lunchbox::MemoryMap, lunchbox::PerThread, lunchbox::RNG,
+  (extra::Clock, lunchbox::MemoryMap, lunchbox::PerThread, lunchbox::RNG,
   lunchbox::Thread)
 * High-Performance Threading Primitives: lunchbox::Buffer, lunchbox::LFQueue,
   lunchbox::LFVector, lunchbox::Monitor, lunchbox::MTQueue,

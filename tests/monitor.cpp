@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2010-2012, Stefan Eilemann <eile@equalizergraphics.com>
+/* Copyright (c) 2010-2017, Stefan Eilemann <eile@equalizergraphics.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -18,10 +18,11 @@
 #define TEST_RUNTIME 300 // seconds
 #include <lunchbox/test.h>
 
-#include <iostream>
-#include <lunchbox/clock.h>
 #include <lunchbox/monitor.h>
 #include <lunchbox/thread.h>
+
+#include <extra/Clock.h>
+#include <iostream>
 
 using servus::uint128_t;
 
@@ -39,7 +40,7 @@ public:
     virtual void run()
     {
         int64_t nOps = _loops;
-        lunchbox::Clock clock;
+        extra::Clock clock;
         while (nOps--)
         {
             monitor.waitEQ(nOps);
@@ -65,7 +66,7 @@ void testSimpleMonitor()
     Thread1 waiter(nOps);
 
     TEST(waiter.start());
-    lunchbox::Clock clock;
+    extra::Clock clock;
 
     while (nOps--)
     {
@@ -91,7 +92,7 @@ public:
     virtual ~Thread2() {}
     virtual void run()
     {
-        lunchbox::Clock clock;
+        extra::Clock clock;
         size_t ops = 0;
         for (size_t k = 0; k != 2; ++k)
         {

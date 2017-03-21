@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2014, Stefan.Eilemann@epfl.ch
+/* Copyright (c) 2014-2017, Stefan.Eilemann@epfl.ch
  *
  * This file is part of Lunchbox <https://github.com/Eyescale/Lunchbox>
  *
@@ -18,10 +18,11 @@
  */
 
 #define BOOST_TEST_MODULE Future
-
 #include <boost/test/unit_test.hpp>
-#include <lunchbox/clock.h>
+
 #include <lunchbox/readyFuture.h>
+
+#include <extra/Clock.h>
 
 BOOST_AUTO_TEST_CASE(readyFutures)
 {
@@ -49,7 +50,7 @@ BOOST_AUTO_TEST_CASE(perfFuture)
 {
     static const size_t nLoops = 1000000;
 
-    lunchbox::Clock clock;
+    extra::Clock clock;
     for (size_t i = 0; i < nLoops; ++i)
         futureFunction();
     const float futureSync = clock.resetTimef();

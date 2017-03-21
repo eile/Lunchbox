@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2006-2014, Stefan Eilemann <eile@equalizergraphics.com>
+/* Copyright (c) 2006-2017, Stefan Eilemann <eile@equalizergraphics.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -16,10 +16,10 @@
  */
 
 #include <iostream>
-#include <lunchbox/clock.h>
-#include <lunchbox/sleep.h>
 #include <lunchbox/test.h>
 #include <lunchbox/thread.h>
+
+#include <extra/Clock.h>
 
 #define NTHREADS 256
 
@@ -40,7 +40,7 @@ public:
     virtual ~InitThread() {}
     virtual bool init()
     {
-        lunchbox::sleep(10);
+        extra::sleep(10);
         initLeft = true;
         return true;
     }
@@ -64,7 +64,7 @@ public:
 int main(int, char**)
 {
     LoadThread loadThreads[NTHREADS];
-    lunchbox::Clock clock;
+    extra::Clock clock;
 
     for (size_t i = 0; i < NTHREADS; ++i)
         TEST(loadThreads[i].start());

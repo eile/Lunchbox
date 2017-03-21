@@ -18,10 +18,10 @@
 #include <lunchbox/test.h>
 #include <pthread.h>
 
+#include <extra/sleep.h>
 #include <lunchbox/atomic.h>
 #include <lunchbox/perThread.h>
 #include <lunchbox/rng.h>
-#include <lunchbox/sleep.h>
 
 #define NTHREADS 1024
 
@@ -75,7 +75,7 @@ int main(int argc, char** argv)
     for (size_t i = 0; i < NTHREADS; ++i)
         TEST(threads[i].join());
 
-    lunchbox::sleep(10); // ms, needed for tls exit handlers to run
+    extra::sleep(10); // ms, needed for tls exit handlers to run
     TESTINFO(_threads == 0, _threads);
     TEST(lunchbox::exit());
     return EXIT_SUCCESS;

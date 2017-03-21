@@ -33,6 +33,8 @@
 #define LUNCHBOX_TYPES_H
 
 #include <lunchbox/defines.h>
+
+#include <extra/types.h>
 #include <servus/types.h>
 
 #include <string>
@@ -219,7 +221,6 @@ typedef std::vector<std::string> Strings;
 typedef Strings::const_iterator StringsCIter;
 typedef Strings::iterator StringsIter;
 
-class Clock;
 class DSO;
 class PersistentMap;
 class Referenced;

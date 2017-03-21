@@ -1,6 +1,6 @@
 
-/* Copyright (c) 2006-2013, Stefan Eilemann <eile@equalizergraphics.com>
- *               2012-2013, Daniel Nachbaur <danielnachbaur@gmail.com>
+/* Copyright (c) 2006-2017, Stefan Eilemann <eile@equalizergraphics.com>
+ *                          Daniel Nachbaur <danielnachbaur@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -17,12 +17,13 @@
  */
 
 #define TEST_RUNTIME 300 // seconds
-#include <iostream>
-#include <lunchbox/clock.h>
 #include <lunchbox/refPtr.h>
 #include <lunchbox/referenced.h>
 #include <lunchbox/test.h>
 #include <lunchbox/thread.h>
+
+#include <extra/Clock.h>
+#include <iostream>
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -110,7 +111,7 @@ int main(int, char**)
     foo = new Foo;
 
     TestThread threads[NTHREADS];
-    lunchbox::Clock clock;
+    extra::Clock clock;
     for (size_t i = 0; i < NTHREADS; ++i)
         TEST(threads[i].start());
 

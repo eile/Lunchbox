@@ -129,14 +129,14 @@ public:
     /**
      * Set the reference clock.
      *
-     * The clock will be used instantly by all log outputs. Use 0 to reset
-     * the clock to the default clock.
+     * The clock will be used instantly by all log outputs. Pass a  nullptr to
+     * reset the clock to the default clock.
      *
      * @param clock the reference clock.
      */
-    static LUNCHBOX_API void setClock(Clock* clock);
+    static LUNCHBOX_API void setClock(extra::Clock* clock);
 
-    static const Clock& getClock(); //!< @internal
+    static const extra::Clock& getClock(); //!< @internal
 
     LUNCHBOX_API void setThreadName(const std::string& name); //!< @internal
     LUNCHBOX_API const std::string& getThreadName() const;    //!< @internal

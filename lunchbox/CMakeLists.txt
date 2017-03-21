@@ -10,7 +10,6 @@ set(LUNCHBOX_PUBLIC_HEADERS
   bitOperation.h
   buffer.h
   buffer.ipp
-  clock.h
   compiler.h
   daemon.h
   debug.h
@@ -33,8 +32,6 @@ set(LUNCHBOX_PUBLIC_HEADERS
   log.h
   memoryMap.h
   monitor.h
-  mtQueue.h
-  mtQueue.ipp
   os.h
   perThread.h
   perThread.ipp
@@ -53,7 +50,6 @@ set(LUNCHBOX_PUBLIC_HEADERS
   rng.h
   scopedMutex.h
   serializable.h
-  sleep.h
   spinLock.h
   string.h
   term.h
@@ -75,14 +71,12 @@ endif()
 
 set(LUNCHBOX_HEADERS
   detail/threadID.h
-  time.h
   test.h
 )
 
 set(LUNCHBOX_SOURCES
   any.cpp
   atomic.cpp
-  clock.cpp
   debug.cpp
   dso.cpp
   file.cpp
@@ -94,7 +88,6 @@ set(LUNCHBOX_SOURCES
   referenced.cpp
   requestHandler.cpp
   rng.cpp
-  sleep.cpp
   spinLock.cpp
   term.cpp
   thread.cpp
@@ -104,7 +97,7 @@ set(LUNCHBOX_SOURCES
 
 set(LUNCHBOX_PUBLIC_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 
-list(APPEND LUNCHBOX_LINK_LIBRARIES PUBLIC ${Boost_LIBRARIES} Servus
+list(APPEND LUNCHBOX_LINK_LIBRARIES PUBLIC ${Boost_LIBRARIES} Extra Servus
   ${PTHREAD_LIBRARIES} PRIVATE)
 
 if(WIN32)

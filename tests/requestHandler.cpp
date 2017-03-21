@@ -17,16 +17,17 @@
 
 #include <lunchbox/test.h>
 
-#include <lunchbox/mtQueue.h>
 #include <lunchbox/requestHandler.h>
-#include <lunchbox/sleep.h>
 #include <lunchbox/thread.h>
+
+#include <extra/MTQueue.h>
+#include <extra/sleep.h>
 #include <servus/uint128_t.h>
 
 using servus::uint128_t;
 
 lunchbox::RequestHandler handler_;
-lunchbox::MTQueue<uint32_t> requestQ_;
+extra::MTQueue<uint32_t> requestQ_;
 const uint128_t uuid = servus::make_UUID();
 
 class Thread : public lunchbox::Thread

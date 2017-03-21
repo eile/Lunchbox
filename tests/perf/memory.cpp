@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2015, Stefan.Eilemann@epfl.ch
+/* Copyright (c) 2015-2017, Stefan.Eilemann@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -18,8 +18,11 @@
 #define TEST_RUNTIME 600 // seconds
 #include <lunchbox/test.h>
 
-#include <boost/lexical_cast.hpp>
 #include <lunchbox/lunchbox.h>
+
+#include <extra/Clock.h>
+
+#include <boost/lexical_cast.hpp>
 #include <string.h>
 
 enum Task
@@ -54,7 +57,7 @@ public:
         ::memset(from, 0, size);
         ::memset(to, 0, size);
 
-        lunchbox::Clock clock;
+        extra::Clock clock;
 
         task.waitGE(TASK_MEMCPY);
         clock.reset();
@@ -103,11 +106,11 @@ int main(int argc, char** argv)
             threads[j].start();
         }
 
-        lunchbox::sleep(500);
+        extra::sleep(500);
         task = TASK_MEMCPY;
-        lunchbox::sleep(500);
+        extra::sleep(500);
         task = TASK_MEMMOVE;
-        lunchbox::sleep(500);
+        extra::sleep(500);
         task = TASK_MEMSET;
 
         float memcpyTime = 0.f;

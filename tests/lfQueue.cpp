@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2010-2011, Stefan Eilemann <eile@equalizergraphics.com>
+/* Copyright (c) 2010-2017, Stefan Eilemann <eile@equalizergraphics.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -15,11 +15,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <iostream>
-#include <lunchbox/clock.h>
 #include <lunchbox/lfQueue.h>
 #include <lunchbox/test.h>
 #include <lunchbox/thread.h>
+
+#include <extra/Clock.h>
+#include <iostream>
 
 #define RUNTIME 1000 /*ms*/
 
@@ -35,7 +36,7 @@ public:
         uint64_t nEmpty = 0;
         uint64_t item = 0xffffffffffffffffull;
 
-        lunchbox::Clock clock;
+        extra::Clock clock;
         while (clock.getTime64() < RUNTIME)
         {
             if (queue.getFront(item))
@@ -63,7 +64,7 @@ int main(int, char**)
 
     TEST(reader.start());
 
-    lunchbox::Clock clock;
+    extra::Clock clock;
     while (clock.getTime64() < RUNTIME)
     {
         while (queue.push(nOps))

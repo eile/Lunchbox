@@ -1,2 +1,3 @@
 # -*- mode: cmake -*-
+git_subproject(Extra https://github.com/BlueBrain/Extra master)
 git_subproject(Servus https://github.com/HBPVIS/Servus.git 6998512)

@@ -19,9 +19,10 @@
 
 #include <lunchbox/test.h>
 
-#include <lunchbox/clock.h>
 #include <lunchbox/init.h>
 #include <lunchbox/rng.h>
+
+#include <extra/Clock.h>
 #include <servus/uint128_t.h>
 
 #define MAXLOOPS 100000
@@ -55,7 +56,7 @@ template <class T>
 void testSpeed()
 {
     lunchbox::RNG rng;
-    lunchbox::Clock clock;
+    extra::Clock clock;
     for (size_t i = 0; i < MAXLOOPS; ++i)
         rng.get<T>();
     std::cout << float(MAXLOOPS) * sizeof(T) / clock.getTimef()

@@ -19,11 +19,11 @@
 #include <lunchbox/test.h>
 
 #include <lunchbox/atomic.h>
-#include <lunchbox/clock.h>
 #include <lunchbox/debug.h>
 #include <lunchbox/init.h>
 #include <lunchbox/spinLock.h>
 
+#include <extra/Clock.h>
 #include <iostream>
 
 #pragma warning(push)
@@ -34,7 +34,7 @@
 #define MAXTHREADS 256
 #define TIME 500 // ms
 
-lunchbox::Clock _clock;
+extra::Clock _clock;
 bool _running = false;
 
 template <class T, uint32_t hold>
@@ -64,7 +64,7 @@ public:
             if (hold > 0) // static, optimized out
             {
                 const double begin = _clock.getTimed();
-                lunchbox::sleep(hold);
+                extra::sleep(hold);
                 sTime += _clock.getTimef() - begin;
             }
             lock->unset();
@@ -101,7 +101,7 @@ public:
             if (hold > 0) // static, optimized out
             {
                 const double begin = _clock.getTimed();
-                lunchbox::sleep(hold);
+                extra::sleep(hold);
                 sTime += _clock.getTimef() - begin;
             }
             lock->unsetRead();
@@ -144,11 +144,11 @@ void _test()
                 readers[j].lock = &lock;
                 TESTINFO(readers[j].start(), j);
             }
-            lunchbox::sleep(10); // let threads initialize
+            extra::sleep(10); // let threads initialize
 
             _clock.reset();
             lock.unset();
-            lunchbox::sleep(TIME); // let threads run
+            extra::sleep(TIME); // let threads run
             _running = false;
 
             for (size_t j = 0; j < nWrite; ++j)
@@ -196,7 +196,6 @@ void _test()
 int main(int argc, char** argv)
 {
     TEST(lunchbox::init(argc, argv));
-    //    lunchbox::sleep( 5000 );
 
     std::cerr << "0 ms in locked region" << std::endl;
     _test<lunchbox::SpinLock, 0>();

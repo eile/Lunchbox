@@ -20,11 +20,12 @@
 
 #include "log.h"
 
-#include "clock.h"
 #include "perThread.h"
 #include "scopedMutex.h"
 #include "spinLock.h"
 #include "thread.h"
+
+#include <extra/Clock.h>
 
 #include <cstdio>
 #include <cstdlib>
@@ -42,6 +43,8 @@
 namespace lunchbox
 {
 static unsigned getLogTopics();
+static SpinLock _lock; // The write lock
+
 const size_t LENGTH_PID = 5;
 const size_t LENGTH_THREAD = 8;
 const size_t LENGTH_FILE = 29;
@@ -83,8 +86,8 @@ struct LogGlobals
     LogTable levels[LOG_ALL];
     std::ostream* stream;
     std::ostream* file;
-    Clock defaultClock;
-    const Clock* clock;
+    extra::Clock defaultClock;
+    const extra::Clock* clock;
     SpinLock lock; // The write lock
     PerThread<Log> log;
 };
@@ -418,7 +421,7 @@ bool Log::setOutput(const std::string& file)
     return true;
 }
 
-void Log::setClock(Clock* clock)
+void Log::setClock(extra::Clock* clock)
 {
     if (clock)
         globals().clock = clock;
@@ -426,7 +429,7 @@ void Log::setClock(Clock* clock)
         globals().clock = &globals().defaultClock;
 }
 
-const Clock& Log::getClock()
+const extra::Clock& Log::getClock()
 {
     return *globals().clock;
 }

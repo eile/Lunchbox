@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2007-2015, Stefan Eilemann <eile@equalizergraphics.com>
+/* Copyright (c) 2007-2017, Stefan Eilemann <eile@equalizergraphics.com>
  *                          Daniel Nachbaur <danielnachbaur@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
@@ -20,8 +20,9 @@
 
 #include "atomic.h"
 #include "os.h" // must come before atomic.h, ordering issue
-#include "sleep.h"
 #include "thread.h"
+
+#include <extra/sleep.h>
 
 #include <errno.h>
 
@@ -47,7 +48,7 @@ void abort(const bool dumpThreads)
     {
         LBERROR << "\nThreads:" << std::endl;
         Thread::_dumpAll();
-        sleep(100); // threads need a bit to print
+        extra::sleep(100); // threads need a bit to print
     }
     else
         LBERROR << std::endl;

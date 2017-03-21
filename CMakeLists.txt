@@ -35,11 +35,12 @@ endif()
 
 common_find_package(Boost REQUIRED COMPONENTS
   filesystem regex serialization system unit_test_framework)
+common_find_package(Extra REQUIRED)
 common_find_package(hwloc)
 common_find_package(Servus REQUIRED)
 common_find_package_post()
 
-set(LUNCHBOX_DEPENDENT_LIBRARIES Boost)
+set(LUNCHBOX_DEPENDENT_LIBRARIES Boost Extra)
 if(NOT LUNCHBOX_BUILD_V2_API)
   list(APPEND LUNCHBOX_DEPENDENT_LIBRARIES Servus)
 endif()
